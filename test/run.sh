@@ -115,7 +115,9 @@ case "$yn" in
         echo "Building Docker Container with Tag Name - app"
         echo "-----------------------------------------------------------------------------------------"
         cd callerid
+        host_port=9090
         docker build -t "app" .
+        docker run -p $host_port:8080 "app" &
         cd ..
         break ;;
     [Nn]* )
@@ -129,7 +131,7 @@ esac
 
 # Push the current host information
 host_ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
-host_port=9090
+
 
 echo "# Mention the host ip and port on which caller_id app is running" >> $repodir/Dockerfile
 echo "ENV HOST_IP=$host_ip" >> $repodir/Dockerfile
