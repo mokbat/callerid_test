@@ -73,12 +73,44 @@ echo "--------------------------------------------------------------------------
 echo "Your local repository can be accessed at - $repodir"
 echo "-----------------------------------------------------------------------------------------"
 
+# Check if the user wishes to build the container
+echo "Do you wish to build the Caller ID App?"
+read -p "Enter (y/n) - " yn
+case "$yn" in
+    [Yy]* )
+        # Build the image
+        echo "-----------------------------------------------------------------------------------------"
+        echo "Building Docker Container with Tag Name - app"
+        echo "-----------------------------------------------------------------------------------------"
+        cd $repodir/callerid
+        # Push the current host information
+        host_ip="127.0.0.1"
+        host_port="9090"
+        docker build -t "app" .
+        docker run -p 127.0.0.1:9090:8080 -d -t "app"
+        cd ..
+        echo "" ;;
+    [Nn]* )
+        echo "Please build and run your docker image manually!"
+        echo "-----------------------------------------------------------------------------------------"
+        echo "Example command - docker build -t app ."
+        echo "Example command - docker run -p 9090:8080 -dt app"
+        echo "-----------------------------------------------------------------------------------------"
+        echo "" ;;
+    * ) echo "Please answer yes or no.";;
+esac
+
+
 # Docker Image Details
 while true; do
 
     # Get to the right  directory
-    echo "Getting into $repodir"
-    cd "$repodir" || echo "Unable to change directory to $repodir"
+    echo "Getting into $repodir/test"
+    cd $repodir/test || echo "Unable to change directory to $repodir/test"
+
+    echo "# Mention the host ip and port on which caller_id app is running" >> $repodir/Dockerfile
+    echo "ENV HOST_IP=$host_ip" >> $repodir/test/Dockerfile
+    echo "ENV HOST_PORT=$host_port" >> $repodir/test/Dockerfile
 
     # Tag for the name of the image
     TAG="$(date +%m_%d_%Y):$(git log -n 1 origin/master --format="%h")"
@@ -104,38 +136,6 @@ while true; do
         * ) echo "Please answer yes or no.";;
     esac
 done
-
-# Check if the user wishes to build the container
-echo "Do you wish to run the Caller ID App?"
-read -p "Enter (y/n) - " yn
-case "$yn" in
-    [Yy]* )
-        # Build the image
-        echo "-----------------------------------------------------------------------------------------"
-        echo "Building Docker Container with Tag Name - app"
-        echo "-----------------------------------------------------------------------------------------"
-        cd callerid
-        host_port=9090
-        docker build -t "app" .
-        docker run -p $host_port:8080 "app" &
-        cd ..
-        break ;;
-    [Nn]* )
-        echo "Please build your docker image manually!"
-        echo "-----------------------------------------------------------------------------------------"
-        echo "Example command - docker build -t app ."
-        echo "-----------------------------------------------------------------------------------------"
-        break ;;
-    * ) echo "Please answer yes or no.";;
-esac
-
-# Push the current host information
-host_ip=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
-
-
-echo "# Mention the host ip and port on which caller_id app is running" >> $repodir/Dockerfile
-echo "ENV HOST_IP=$host_ip" >> $repodir/Dockerfile
-echo "ENV HOST_PORT=$host_port" >> $repodir/Dockerfile
 
 # User wants to access the container and run functional test
 while true; do
@@ -213,7 +213,7 @@ echo "--------------------------------------------------------------------------
 echo "Docker Tag - $TAG                                                                       "
 echo "----------------------------------------------------------------------------------------"
 echo "                                                                                        "
-echo "For manual access to the test in the future, use this command below                     "
+echo "For access to the test, use this command below                                          "
 echo "----------------------------------------------------------------------------------------"
 echo "Functional Test                                                                         "
 echo "----------------------------------------------------------------------------------------"
