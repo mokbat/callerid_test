@@ -169,7 +169,7 @@ while $functional; do
             echo "Redirecting output to your container"
             echo "-----------------------------------------------------------------------------------------"
             echo ""
-            docker run -t "$TAG" python3 test_functional.py
+            docker run --network host -t "$TAG" python3 test_functional.py
             echo ""
             break ;;
         [Nn]* )
@@ -189,7 +189,7 @@ while $load; do
             echo "Redirecting output to your container"
             echo "-----------------------------------------------------------------------------------------"
             echo ""
-            docker run -t "$TAG" locust --host=http://localhost:8089 -f test_load.py
+            docker run -d -p 8089:8089 -t "$TAG" locust --host=http://localhost:8089 -f $repodir/test/test_load.py
             echo "Use the web browser - http://localhost:8089                                             "
             echo "Start the test by specifying number of users to simulate and users/sec                  "
             echo ""
