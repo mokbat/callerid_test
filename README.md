@@ -49,12 +49,12 @@ git clone https://github.com/mokbat/callerid_test
 
 #### Clone this repository
 ```sh
-curl -O https://raw.githubusercontent.com/mokbat/callerid_test/master/run_test.sh
+curl -O https://raw.githubusercontent.com/mokbat/callerid_test/master/run.sh
 ```
 
 #### Execute the script
 ```sh
-source run_test.sh
+source run.sh
 ```
 
 #### Install dependencies for testing
