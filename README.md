@@ -1,4 +1,4 @@
-# CALLER ID TEST Module
+# CALLER ID Module (Test and App)
 > This is a module which runs a set of test cases for performing caller id testing.
 
 ![GIT][git-image]
