@@ -80,7 +80,7 @@ Sundar Ramakrishnan – mokbat@gmail.com
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
-[https://github.com/mokbat/rest_api.git](https://github.com/mokbat/callerid_test.git)
+[https://github.com/mokbat/callerid_test.git](https://github.com/mokbat/callerid_test.git)
 
 <!-- Markdown link & img dfn's -->
 [mit-license]: https://img.shields.io/github/license/mashape/apistatus.svg
